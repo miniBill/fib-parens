@@ -40,11 +40,16 @@ add : Tree -> Tree -> Tree
 add l r =
     case r of
         Leaf n ->
-            if n <= 0 then
-                l
+            let
+                go : Int -> Tree -> Tree
+                go k acc =
+                    if k <= 0 then
+                        acc
 
-            else
-                add (node [ l ]) (Leaf (n - 1))
+                    else
+                        go (k - 1) (node [ acc ])
+            in
+            go n l
 
         Node rs ->
             Node (SeqSet.map (\re -> add l re) rs)
